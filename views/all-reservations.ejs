@@ -7,13 +7,27 @@
 </head>
 <body>
   <h1>All Reservations</h1>
-  <ul>
+  <table border="1">
+    <tr>
+      <th>ID</th><th>Name</th><th>Status</th><th>Actions</th>
+    </tr>
     <% reservations.forEach(r => { %>
-      <li>
-        ID: <%= r.id %> | Name: <%= r.name %> | Status: <%= r.status %>
-      </li>
+    <tr>
+      <td><%= r.id %></td>
+      <td><%= r.name %></td>
+      <td><%= r.status %></td>
+      <td>
+        <form action="/reservation-action/<%= r.id %>" method="POST" style="display:inline">
+          <button name="action" value="cancel">Cancel</button>
+          <button name="action" value="delay">Delay</button>
+          <button name="action" value="early">Move Early</button>
+          <button name="action" value="suspicious">Suspicious</button>
+        </form>
+      </td>
+    </tr>
     <% }) %>
-  </ul>
+  </table>
+  <br>
   <a href="/frontdesk">Back to Front Desk</a>
 </body>
 </html>
