@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Front Desk - Reservation <%= reservation.id %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Reservation Details</h1>
+  <p><strong>ID:</strong> <%= reservation.id %></p>
+  <p><strong>Name:</strong> <%= reservation.name %></p>
+  <p><strong>Package:</strong> <%= reservation.packageDetails %></p>
+  <p><strong>Status:</strong> <%= reservation.status %></p>
+  <p><strong>Additional Info:</strong> <%= reservation.additionalInfo %></p>
+
+  <a href="/frontdesk">Back to Scan</a>
+</body>
+</html>
