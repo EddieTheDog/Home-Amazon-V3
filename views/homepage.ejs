@@ -2,14 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Home - Create Reservation</title>
+  <title>Create Reservation</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <h1>Create a Reservation</h1>
   <form action="/create-reservation" method="POST">
     <label>Name: <input type="text" name="name" required></label><br>
+    <label>Contact: <input type="text" name="contact" required></label><br>
     <label>Package Details: <input type="text" name="packageDetails" required></label><br>
+    <label>Delivery Address: <input type="text" name="deliveryAddress" required></label><br>
+    <label>Notes: <input type="text" name="notes"></label><br>
+    <label>Fragile? <input type="checkbox" name="fragile"></label><br>
+    <label>Value: <input type="number" name="value"></label><br>
+    <label>Suspicious? <input type="text" name="suspicious"></label><br>
     <button type="submit">Create Reservation</button>
   </form>
 </body>
