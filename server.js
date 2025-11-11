@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
-import QRCode from "qrcode";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,57 +9,34 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Middlewares
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// In-memory "database" for demo purposes
+app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// In-memory "database" for reservations
 const reservations = {};
 
-// Routes
-
-// 1. Reservation form
-app.get("/", (req, res) => {
-  res.render("index");
+// Front desk page to create reservation
+app.get("/frontdesk", (req, res) => {
+  res.render("frontdesk");
 });
 
-// 2. Handle form submission
-app.post("/reserve", async (req, res) => {
-  const { name, contents } = req.body;
-  const id = Date.now().toString(36); // unique short ID
-  reservations[id] = { name, contents, status: "Pending" };
-
-  // Generate QR code data URL
-  const qrData = await QRCode.toDataURL(id);
-  reservations[id].qr = qrData;
-
+app.post("/create-reservation", (req, res) => {
+  const id = "RES" + Date.now(); // simple unique ID
+  const { name, packageDetails } = req.body;
+  reservations[id] = { id, name, packageDetails, status: "Pending" };
   res.redirect(`/reservation/${id}`);
 });
 
-// 3. Reservation page / tracking
+// Reservation tracking page
 app.get("/reservation/:id", (req, res) => {
-  const { id } = req.params;
-  const reservation = reservations[id];
+  const reservation = reservations[req.params.id];
   if (!reservation) return res.send("Reservation not found");
-  res.render("reservation", { id, reservation });
+  res.render("reservation", { reservation });
 });
 
-// 4. Front Desk page
-app.get("/frontdesk", (req, res) => {
-  res.render("frontdesk", { reservations });
-});
-
-// 5. Update reservation status (Front Desk)
-app.post("/update/:id", (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
-  if (reservations[id]) reservations[id].status = status;
-  res.redirect("/frontdesk");
-});
-
-// Start server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
