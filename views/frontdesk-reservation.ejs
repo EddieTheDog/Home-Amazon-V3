@@ -1,31 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Front Desk - Reservation <%= reservation.id %></title>
+<title>Front Desk Reservation <%= reservation.id %></title>
 <link rel="stylesheet" href="/style.css">
+<script>
+  function countdown(targetTime) {
+    const countdownEl = document.getElementById('countdown');
+    function update() {
+      const now = new Date();
+      const diff = targetTime - now;
+      if(diff <= 0){
+        countdownEl.textContent = "Arrived / Expired";
+        return;
+      }
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      countdownEl.textContent = minutes + "m " + seconds + "s";
+      setTimeout(update, 1000);
+    }
+    update();
+  }
+</script>
 </head>
-<body>
-<h1>Reservation <%= reservation.id %></h1>
-<p>Name: <%= reservation.name %></p>
-<p>Contact: <%= reservation.contact %></p>
-<p>Package Details: <%= reservation.packageDetails %></p>
-<p>Delivery Address: <%= reservation.deliveryAddress %></p>
-<p>Notes: <%= reservation.notes %></p>
+<body onload="countdown(new Date('<%= new Date(reservation.createdAt).getTime() + reservation.scheduledTime*60000 %>'))">
+  <div class="container">
+    <h1>Front Desk - Reservation <%= reservation.id %></h1>
+    <form action="/update-reservation/<%= reservation.id %>" method="POST">
+      <label>Name:</label>
+      <input type="text" name="name" value="<%= reservation.name %>" required>
 
-<h3>Additional Info</h3>
-<form action="/update-reservation/<%= reservation.id %>" method="POST">
-  <textarea name="additionalInfo" rows="3"><%= reservation.additionalInfo %></textarea><br>
-  <button type="submit">Update Info</button>
-</form>
+      <label>Package Info:</label>
+      <input type="text" name="packageInfo" value="<%= reservation.packageInfo %>" required>
 
-<h3>Actions</h3>
-<form action="/reservation-action/<%= reservation.id %>" method="POST">
-  <button name="action" value="generate">Generate</button>
-  <button name="action" value="delete">Delete</button>
-</form>
+      <label>Delivery Info:</label>
+      <input type="text" name="deliveryInfo" value="<%= reservation.deliveryInfo %>" required>
 
-<br>
-<a href="/frontdesk">Back to Scan</a>
+      <label>Scheduled Time (minutes from now):</label>
+      <input type="number" name="scheduledTime" value="<%= reservation.scheduledTime %>" required>
+
+      <label>Additional Info:</label>
+      <input type="text" name="additionalInfo" value="<%= reservation.additionalInfo %>">
+
+      <button type="submit">Update Reservation</button>
+    </form>
+    <p>Status: <%= reservation.status %></p>
+    <p>Time Remaining: <span id="countdown"></span></p>
+
+    <form action="/reservation-action/<%= reservation.id %>" method="POST" style="margin-top:10px;">
+      <button type="submit" name="action" value="generate">Generate Package</button>
+      <button type="submit" name="action" value="delete">Delete Reservation</button>
+    </form>
+
+    <br>
+    <a href="/frontdesk">Back to Front Desk</a>
+  </div>
 </body>
 </html>
