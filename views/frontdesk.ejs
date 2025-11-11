@@ -6,11 +6,21 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Front Desk - Create Reservation</h1>
-  <form action="/create-reservation" method="POST">
-    <label>Name: <input type="text" name="name" required></label><br>
-    <label>Package Details: <input type="text" name="packageDetails" required></label><br>
-    <button type="submit">Create Reservation</button>
+  <h1>Front Desk</h1>
+
+  <form action="/scan-reservation" method="POST">
+    <label>Scan/Enter Reservation ID:
+      <input type="text" name="reservationId" required>
+    </label><br>
+    <label>Add Additional Info (optional):
+      <input type="text" name="additionalInfo">
+    </label><br>
+    <button type="submit">Scan</button>
+  </form>
+
+  <br>
+  <form action="/all-reservations" method="GET">
+    <button type="submit">View All Reservations</button>
   </form>
 </body>
 </html>
