@@ -1,22 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Create Reservation</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<title>Create Reservation</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  .container {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 500px;
+  }
+  h1 {
+    text-align: center;
+    color: #495057;
+  }
+  label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: 600;
+    color: #495057;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    font-size: 1em;
+    box-sizing: border-box;
+  }
+  button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background: #007bff;
+    color: white;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background: #0056b3;
+  }
+</style>
 </head>
 <body>
-  <h1>Create a Reservation</h1>
+<div class="container">
+  <h1>Create Your Reservation</h1>
   <form action="/create-reservation" method="POST">
-    <label>Name: <input type="text" name="name" required></label><br>
-    <label>Contact: <input type="text" name="contact" required></label><br>
-    <label>Package Details: <input type="text" name="packageDetails" required></label><br>
-    <label>Delivery Address: <input type="text" name="deliveryAddress" required></label><br>
-    <label>Notes: <input type="text" name="notes"></label><br>
-    <label>Fragile? <input type="checkbox" name="fragile"></label><br>
-    <label>Value: <input type="number" name="value"></label><br>
-    <label>Suspicious? <input type="text" name="suspicious"></label><br>
+    <label>Name</label>
+    <input type="text" name="name" required>
+    <label>Contact</label>
+    <input type="text" name="contact" required>
+    <label>Package Details</label>
+    <textarea name="packageDetails" rows="3" required></textarea>
+    <label>Delivery Address</label>
+    <textarea name="deliveryAddress" rows="2"></textarea>
+    <label>Notes</label>
+    <textarea name="notes" rows="2"></textarea>
+    <label>Fragile?</label>
+    <input type="checkbox" name="fragile">
+    <label>Value</label>
+    <input type="number" name="value">
     <button type="submit">Create Reservation</button>
   </form>
+</div>
 </body>
 </html>
