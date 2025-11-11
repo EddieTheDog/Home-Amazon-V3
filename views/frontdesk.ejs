@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Front Desk</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h1>Front Desk</h1>
-<form action="/scan-reservation" method="POST">
-  <label>Scan / Enter Reservation ID:</label>
-  <input type="text" name="reservationId" required autofocus>
-  <button type="submit">Scan</button>
-</form>
+  <div class="container">
+    <h1>Front Desk - Scan Reservation</h1>
+    <form action="/scan-reservation" method="POST">
+      <label>Scan or Type Reservation ID:</label>
+      <input type="text" name="reservationID" required>
+      <button type="submit">Scan</button>
+    </form>
+    <br>
+    <a href="/view-all">View All Reservations</a>
+  </div>
 </body>
 </html>
