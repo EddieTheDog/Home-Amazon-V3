@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>All Reservations</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>All Reservations</h1>
+  <ul>
+    <% reservations.forEach(r => { %>
+      <li>
+        ID: <%= r.id %> | Name: <%= r.name %> | Status: <%= r.status %>
+      </li>
+    <% }) %>
+  </ul>
+  <a href="/frontdesk">Back to Front Desk</a>
+</body>
+</html>
