@@ -15,29 +15,44 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Simple in-memory "database"
+// In-memory database
 const reservations = {};
 
-// Homepage - customer creates reservation
+// Homepage - create reservation
 app.get("/", (req, res) => {
   res.render("homepage");
 });
 
 app.post("/create-reservation", (req, res) => {
   const id = "RES" + Date.now();
-  const { name, packageDetails } = req.body;
+  const {
+    name,
+    packageDetails,
+    contact,
+    deliveryAddress,
+    notes,
+    fragile,
+    value,
+    suspicious
+  } = req.body;
 
-  // Set reservation expiry time (5 minutes by default)
   const expiresAt = Date.now() + 5 * 60 * 1000;
 
   reservations[id] = {
     id,
     name,
     packageDetails,
+    contact,
+    deliveryAddress,
+    notes,
+    fragile,
+    value,
+    suspicious: suspicious || "",
     status: "Pending",
     expiresAt,
     additionalInfo: ""
   };
+
   res.redirect(`/reservation/${id}`);
 });
 
@@ -48,27 +63,53 @@ app.get("/reservation/:id", (req, res) => {
   res.render("reservation", { reservation });
 });
 
-// Front desk page
+// Front desk
 app.get("/frontdesk", (req, res) => {
   res.render("frontdesk");
 });
 
-// Scan reservation (POST from frontdesk)
+// Scan/lookup reservation
 app.post("/scan-reservation", (req, res) => {
-  const { reservationId, additionalInfo } = req.body;
+  const { reservationId } = req.body;
   const reservation = reservations[reservationId];
   if (!reservation) return res.send("Reservation not found");
-
-  if (additionalInfo) {
-    reservation.additionalInfo = additionalInfo;
-  }
-
   res.render("frontdesk-reservation", { reservation });
 });
 
-// All reservations page (accessible from front desk button)
+// Update reservation from Front Desk
+app.post("/update-reservation/:id", (req, res) => {
+  const reservation = reservations[req.params.id];
+  if (!reservation) return res.send("Reservation not found");
+
+  Object.assign(reservation, req.body); // Update fields dynamically
+  res.redirect(`/frontdesk-reservation/${reservation.id}`);
+});
+
+// Front desk page for specific reservation
+app.get("/frontdesk-reservation/:id", (req, res) => {
+  const reservation = reservations[req.params.id];
+  if (!reservation) return res.send("Reservation not found");
+  res.render("frontdesk-reservation", { reservation });
+});
+
+// All reservations (view & actions)
 app.get("/all-reservations", (req, res) => {
   res.render("all-reservations", { reservations: Object.values(reservations) });
+});
+
+// Perform actions on reservations (delay, cancel, mark early)
+app.post("/reservation-action/:id", (req, res) => {
+  const reservation = reservations[req.params.id];
+  if (!reservation) return res.send("Reservation not found");
+
+  const { action } = req.body;
+  switch(action) {
+    case "cancel": reservation.status = "Cancelled"; break;
+    case "delay": reservation.expiresAt += 5 * 60 * 1000; break; // add 5 mins
+    case "early": reservation.expiresAt = Date.now(); break;
+    case "suspicious": reservation.suspicious = "Marked suspicious"; break;
+  }
+  res.redirect("/all-reservations");
 });
 
 app.listen(PORT, () => {
