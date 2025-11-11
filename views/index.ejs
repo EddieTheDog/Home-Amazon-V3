@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Home Amazon - Reservation</title>
-    <link rel="stylesheet" href="/default.css">
+  <meta charset="UTF-8">
+  <title>Reservation Form</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="container">
-    <h1>Schedule a Drop-Off</h1>
-    <form action="/reserve" method="POST">
-        <label>Sender Name</label>
-        <input type="text" name="sender" required>
-
-        <label>Recipient Name</label>
-        <input type="text" name="recipient" required>
-
-        <label>Package Contents</label>
-        <input type="text" name="contents" required>
-
-        <label>Drop-Off Time (minutes from now)</label>
-        <input type="number" name="time" required min="1" max="60">
-
-        <button type="submit">Create Reservation</button>
-    </form>
-</div>
+  <h1>Make a Reservation</h1>
+  <form action="/reserve" method="POST">
+    <label>Name:</label>
+    <input type="text" name="name" required>
+    <label>Package Contents:</label>
+    <input type="text" name="contents" required>
+    <button type="submit">Reserve</button>
+  </form>
 </body>
 </html>
