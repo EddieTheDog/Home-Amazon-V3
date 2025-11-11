@@ -7,12 +7,27 @@
 </head>
 <body>
   <h1>Reservation Details</h1>
-  <p><strong>ID:</strong> <%= reservation.id %></p>
-  <p><strong>Name:</strong> <%= reservation.name %></p>
-  <p><strong>Package:</strong> <%= reservation.packageDetails %></p>
-  <p><strong>Status:</strong> <%= reservation.status %></p>
-  <p><strong>Additional Info:</strong> <%= reservation.additionalInfo %></p>
+  <form action="/update-reservation/<%= reservation.id %>" method="POST">
+    <label>Name: <input type="text" name="name" value="<%= reservation.name %>"></label><br>
+    <label>Contact: <input type="text" name="contact" value="<%= reservation.contact %>"></label><br>
+    <label>Package Details: <input type="text" name="packageDetails" value="<%= reservation.packageDetails %>"></label><br>
+    <label>Delivery Address: <input type="text" name="deliveryAddress" value="<%= reservation.deliveryAddress %>"></label><br>
+    <label>Notes: <input type="text" name="notes" value="<%= reservation.notes %>"></label><br>
+    <label>Fragile: <input type="checkbox" name="fragile" <%= reservation.fragile ? "checked" : "" %>></label><br>
+    <label>Value: <input type="number" name="value" value="<%= reservation.value %>"></label><br>
+    <label>Suspicious: <input type="text" name="suspicious" value="<%= reservation.suspicious %>"></label><br>
+    <button type="submit">Update Info</button>
+  </form>
 
+  <h3>Actions</h3>
+  <form action="/reservation-action/<%= reservation.id %>" method="POST">
+    <button name="action" value="cancel">Cancel</button>
+    <button name="action" value="delay">Delay</button>
+    <button name="action" value="early">Move Early</button>
+    <button name="action" value="suspicious">Mark Suspicious</button>
+  </form>
+
+  <br>
   <a href="/frontdesk">Back to Scan</a>
 </body>
 </html>
