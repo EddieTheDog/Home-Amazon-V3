@@ -1,33 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>All Reservations</title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<title>All Reservations</title>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>All Reservations</h1>
-  <table border="1">
-    <tr>
-      <th>ID</th><th>Name</th><th>Status</th><th>Actions</th>
-    </tr>
-    <% reservations.forEach(r => { %>
-    <tr>
-      <td><%= r.id %></td>
-      <td><%= r.name %></td>
-      <td><%= r.status %></td>
-      <td>
-        <form action="/reservation-action/<%= r.id %>" method="POST" style="display:inline">
-          <button name="action" value="cancel">Cancel</button>
-          <button name="action" value="delay">Delay</button>
-          <button name="action" value="early">Move Early</button>
-          <button name="action" value="suspicious">Suspicious</button>
-        </form>
-      </td>
-    </tr>
-    <% }) %>
-  </table>
-  <br>
-  <a href="/frontdesk">Back to Front Desk</a>
+  <div class="container">
+    <h1>All Reservations</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Package Info</th>
+          <th>Delivery Info</th>
+          <th>Status</th>
+          <th>Scheduled Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reservations.forEach(resv => { %>
+        <tr>
+          <td><%= resv.id %></td>
+          <td><%= resv.name %></td>
+          <td><%= resv.packageInfo %></td>
+          <td><%= resv.deliveryInfo %></td>
+          <td><%= resv.status %></td>
+          <td><%= resv.scheduledTime %> min</td>
+          <td>
+            <a href="/frontdesk-reservation/<%= resv.id %>">Edit</a>
+            <form action="/reservation-action/<%= resv.id %>" method="POST" style="display:inline;">
+              <button type="submit" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <br>
+    <a href="/frontdesk">Back to Front Desk</a>
+  </div>
 </body>
 </html>
