@@ -9,8 +9,9 @@
   <h1>Reservation Page</h1>
   <p><strong>ID:</strong> <%= reservation.id %></p>
   <p><strong>Name:</strong> <%= reservation.name %></p>
-  <p><strong>Package:</strong> <%= reservation.packageDetails %></p>
-  <p><strong>Status:</strong> <%= reservation.status %></p>
+
+  <h2>Countdown to Arrival:</h2>
+  <p id="countdown"></p>
 
   <h2>Barcode for Staff:</h2>
   <svg id="barcode"></svg>
@@ -24,6 +25,24 @@
       width: 2,
       height: 50
     });
+
+    const expiresAt = <%= reservation.expiresAt %>;
+    const countdownEl = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = expiresAt - now;
+      if (diff <= 0) {
+        countdownEl.innerText = "Time expired!";
+      } else {
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        countdownEl.innerText = `${minutes}m ${seconds}s`;
+      }
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
