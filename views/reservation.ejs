@@ -1,48 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Reservation <%= reservation.id %></title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-  <h1>Reservation Page</h1>
-  <p><strong>ID:</strong> <%= reservation.id %></p>
-  <p><strong>Name:</strong> <%= reservation.name %></p>
-
-  <h2>Countdown to Arrival:</h2>
-  <p id="countdown"></p>
-
-  <h2>Barcode for Staff:</h2>
-  <svg id="barcode"></svg>
-
-  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <script>
-    JsBarcode("#barcode", "<%= reservation.id %>", {
-      format: "CODE128",
-      displayValue: true,
-      lineColor: "#000",
-      width: 2,
-      height: 50
-    });
-
-    const expiresAt = <%= reservation.expiresAt %>;
-    const countdownEl = document.getElementById("countdown");
-
-    function updateCountdown() {
-      const now = Date.now();
-      const diff = expiresAt - now;
-      if (diff <= 0) {
-        countdownEl.innerText = "Time expired!";
-      } else {
-        const minutes = Math.floor(diff / 60000);
-        const seconds = Math.floor((diff % 60000) / 1000);
-        countdownEl.innerText = `${minutes}m ${seconds}s`;
+<meta charset="UTF-8">
+<title>Reservation <%= reservation.id %></title>
+<link rel="stylesheet" href="/style.css">
+<script>
+  function countdown(targetTime) {
+    const countdownEl = document.getElementById('countdown');
+    function update() {
+      const now = new Date();
+      const diff = targetTime - now;
+      if(diff <= 0){
+        countdownEl.textContent = "Arrived / Expired";
+        return;
       }
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      countdownEl.textContent = minutes + "m " + seconds + "s";
+      setTimeout(update, 1000);
     }
-
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-  </script>
+    update();
+  }
+</script>
+</head>
+<body onload="countdown(new Date('<%= new Date(reservation.createdAt).getTime() + reservation.scheduledTime*60000 %>'))">
+  <div class="container">
+    <h1>Reservation ID: <%= reservation.id %></h1>
+    <p>Name: <%= reservation.name %></p>
+    <p>Package Info: <%= reservation.packageInfo %></p>
+    <p>Delivery Info: <%= reservation.deliveryInfo %></p>
+    <p>Status: <%= reservation.status %></p>
+    <p>Time Remaining: <span id="countdown"></span></p>
+  </div>
 </body>
 </html>
