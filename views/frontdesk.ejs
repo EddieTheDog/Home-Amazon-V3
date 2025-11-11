@@ -1,48 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Front Desk</title>
-    <link rel="stylesheet" href="/default.css">
+  <meta charset="UTF-8">
+  <title>Front Desk</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="container">
-    <h1>Front Desk</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Reservation ID</th>
-                <th>Sender</th>
-                <th>Recipient</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        <% reservations.forEach(r => { %>
-            <tr>
-                <td><%= r.id %></td>
-                <td><%= r.sender %></td>
-                <td><%= r.recipient %></td>
-                <td><%= r.status %></td>
-                <td><%= r.notes %></td>
-                <td>
-                    <form action="/frontdesk/<%= r.id %>" method="POST">
-                        <select name="status">
-                            <option value="reserved" <%= r.status==='reserved'?'selected':'' %>>Reserved</option>
-                            <option value="checked_in" <%= r.status==='checked_in'?'selected':'' %>>Checked In</option>
-                            <option value="in delivery" <%= r.status==='in delivery'?'selected':'' %>>In Delivery</option>
-                            <option value="delivered" <%= r.status==='delivered'?'selected':'' %>>Delivered</option>
-                        </select>
-                        <input type="text" name="notes" placeholder="Add notes">
-                        <button type="submit">Update</button>
-                    </form>
-                </td>
-            </tr>
-        <% }) %>
-        </tbody>
-    </table>
-</div>
+  <h1>Front Desk</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Contents</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    <% for (let id in reservations) { %>
+      <tr>
+        <td><%= id %></td>
+        <td><%= reservations[id].name %></td>
+        <td><%= reservations[id].contents %></td>
+        <td><%= reservations[id].status %></td>
+        <td>
+          <form action="/update/<%= id %>" method="POST">
+            <select name="status">
+              <option value="Pending" <%= reservations[id].status === 'Pending' ? 'selected' : '' %>>Pending</option>
+              <option value="Checked-In" <%= reservations[id].status === 'Checked-In' ? 'selected' : '' %>>Checked-In</option>
+              <option value="Completed" <%= reservations[id].status === 'Completed' ? 'selected' : '' %>>Completed</option>
+            </select>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+    <% } %>
+  </table>
 </body>
 </html>
