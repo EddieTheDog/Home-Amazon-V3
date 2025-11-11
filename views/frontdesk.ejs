@@ -1,38 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Front Desk</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Front Desk</h1>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Contents</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-    <% for (let id in reservations) { %>
-      <tr>
-        <td><%= id %></td>
-        <td><%= reservations[id].name %></td>
-        <td><%= reservations[id].contents %></td>
-        <td><%= reservations[id].status %></td>
-        <td>
-          <form action="/update/<%= id %>" method="POST">
-            <select name="status">
-              <option value="Pending" <%= reservations[id].status === 'Pending' ? 'selected' : '' %>>Pending</option>
-              <option value="Checked-In" <%= reservations[id].status === 'Checked-In' ? 'selected' : '' %>>Checked-In</option>
-              <option value="Completed" <%= reservations[id].status === 'Completed' ? 'selected' : '' %>>Completed</option>
-            </select>
-            <button type="submit">Update</button>
-          </form>
-        </td>
-      </tr>
-    <% } %>
-  </table>
+  <h1>Front Desk - Create Reservation</h1>
+  <form action="/create-reservation" method="POST">
+    <label>Name: <input type="text" name="name" required></label><br>
+    <label>Package Details: <input type="text" name="packageDetails" required></label><br>
+    <button type="submit">Create Reservation</button>
+  </form>
 </body>
 </html>
