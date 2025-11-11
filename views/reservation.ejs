@@ -1,16 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Reservation <%= id %></title>
+  <title>Reservation <%= reservation.id %></title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Reservation <%= id %></h1>
+  <h1>Reservation Page</h1>
+  <p><strong>ID:</strong> <%= reservation.id %></p>
   <p><strong>Name:</strong> <%= reservation.name %></p>
-  <p><strong>Contents:</strong> <%= reservation.contents %></p>
+  <p><strong>Package:</strong> <%= reservation.packageDetails %></p>
   <p><strong>Status:</strong> <%= reservation.status %></p>
-  <h2>Scan this QR code at Front Desk:</h2>
-  <img src="<%= reservation.qr %>" alt="QR Code">
+
+  <h2>Barcode for Staff:</h2>
+  <svg id="barcode"></svg>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script>
+    JsBarcode("#barcode", "<%= reservation.id %>", {
+      format: "CODE128",
+      displayValue: true,
+      lineColor: "#000",
+      width: 2,
+      height: 50
+    });
+  </script>
 </body>
 </html>
