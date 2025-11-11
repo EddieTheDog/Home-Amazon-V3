@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Front Desk - Reservation <%= reservation.id %></title>
-  <link rel="stylesheet" href="/style.css">
+<meta charset="UTF-8">
+<title>Front Desk - Reservation <%= reservation.id %></title>
+<link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <h1>Reservation Details</h1>
-  <form action="/update-reservation/<%= reservation.id %>" method="POST">
-    <label>Name: <input type="text" name="name" value="<%= reservation.name %>"></label><br>
-    <label>Contact: <input type="text" name="contact" value="<%= reservation.contact %>"></label><br>
-    <label>Package Details: <input type="text" name="packageDetails" value="<%= reservation.packageDetails %>"></label><br>
-    <label>Delivery Address: <input type="text" name="deliveryAddress" value="<%= reservation.deliveryAddress %>"></label><br>
-    <label>Notes: <input type="text" name="notes" value="<%= reservation.notes %>"></label><br>
-    <label>Fragile: <input type="checkbox" name="fragile" <%= reservation.fragile ? "checked" : "" %>></label><br>
-    <label>Value: <input type="number" name="value" value="<%= reservation.value %>"></label><br>
-    <label>Suspicious: <input type="text" name="suspicious" value="<%= reservation.suspicious %>"></label><br>
-    <button type="submit">Update Info</button>
-  </form>
+<h1>Reservation <%= reservation.id %></h1>
+<p>Name: <%= reservation.name %></p>
+<p>Contact: <%= reservation.contact %></p>
+<p>Package Details: <%= reservation.packageDetails %></p>
+<p>Delivery Address: <%= reservation.deliveryAddress %></p>
+<p>Notes: <%= reservation.notes %></p>
 
-  <h3>Actions</h3>
-  <form action="/reservation-action/<%= reservation.id %>" method="POST">
-    <button name="action" value="cancel">Cancel</button>
-    <button name="action" value="delay">Delay</button>
-    <button name="action" value="early">Move Early</button>
-    <button name="action" value="suspicious">Mark Suspicious</button>
-  </form>
+<h3>Additional Info</h3>
+<form action="/update-reservation/<%= reservation.id %>" method="POST">
+  <textarea name="additionalInfo" rows="3"><%= reservation.additionalInfo %></textarea><br>
+  <button type="submit">Update Info</button>
+</form>
 
-  <br>
-  <a href="/frontdesk">Back to Scan</a>
+<h3>Actions</h3>
+<form action="/reservation-action/<%= reservation.id %>" method="POST">
+  <button name="action" value="generate">Generate</button>
+  <button name="action" value="delete">Delete</button>
+</form>
+
+<br>
+<a href="/frontdesk">Back to Scan</a>
 </body>
 </html>
